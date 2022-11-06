@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { ContractService } from 'src/app/services/contract.service';
 
 @Component({
   selector: 'app-user-feed',
@@ -6,9 +8,11 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./user-feed.component.scss'],
 })
 export class UserFeedComponent implements OnInit {
-  @Input() tweets = [1, 2, 3];
+  tweets$!: BehaviorSubject<any[]>;
 
-  constructor() {}
+  constructor(private _contractService: ContractService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.tweets$ = this._contractService.tweets$;
+  }
 }

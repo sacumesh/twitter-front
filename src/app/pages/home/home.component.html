@@ -1,9 +1,19 @@
 <div class="page">
   <div class="page__header">
-    <button class="ex" mat-flat-button color="warn">Connect to Metamask</button>
+    <button
+      class="ex"
+      [disabled]="test | async"
+      (click)="connect()"
+      mat-flat-button
+      color="warn">
+      Connect to Metamask
+    </button>
   </div>
   <div class="page__content">
-    <app-create-tweet></app-create-tweet>
+    <div>
+      <div class="account">Account: {{ account$ | async }}</div>
+      <app-create-tweet></app-create-tweet>
+    </div>
     <app-user-feed></app-user-feed>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NgZone, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,11 +13,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CreateTweetComponent } from './components/create-tweet/create-tweet.component';
 import { MatInputModule } from '@angular/material/input';
 import { EditTweetDialogComponent } from './dialogs/edit-tweet-dialog/edit-tweet-dialog.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
+  MatSnackBar,
   MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
 } from '@angular/material/snack-bar';
@@ -25,6 +26,35 @@ import { UserFeedComponent } from './components/user-feed/user-feed.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HomeComponent } from './pages/home/home.component';
 import { MetamaskNotFoundComponent } from './pages/metamask-not-found/metamask-not-found.component';
+import { Web3Service } from './services/web3.service';
+import { ReactiveFormsModule } from '@angular/forms';
+
+const providers: Provider[] = [
+  {
+    provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+    useValue: {
+      duration: 2500,
+      verticalPosition: 'center',
+      horizontalPosition: 'center',
+    },
+  },
+];
+
+// if
+const web3Provider = (window as any).ethereum;
+console.log(web3Provider);
+if (web3Provider && web3Provider?.isMetaMask) {
+  providers.push({
+    provide: Web3Service,
+    useFactory: (ngZone: NgZone, snackBar: MatSnackBar) => {
+      console.log(web3Provider);
+      const web3Service = new Web3Service(ngZone, snackBar);
+      web3Service.init(web3Provider);
+      return web3Service;
+    },
+    deps: [NgZone, MatSnackBar],
+  });
+}
 
 @NgModule({
   declarations: [
@@ -40,6 +70,7 @@ import { MetamaskNotFoundComponent } from './pages/metamask-not-found/metamask-n
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MatCardModule,
     MatDividerModule,
@@ -54,16 +85,7 @@ import { MetamaskNotFoundComponent } from './pages/metamask-not-found/metamask-n
     MatProgressSpinnerModule,
     ScrollingModule,
   ],
-  providers: [
-    {
-      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
-      useValue: {
-        duration: 2500,
-        verticalPosition: 'top',
-        horizontalPosition: 'center',
-      },
-    },
-  ],
+  providers,
   bootstrap: [AppComponent],
 })
 export class AppModule {}

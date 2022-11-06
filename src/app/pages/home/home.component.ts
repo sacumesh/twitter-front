@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { delay, Observable, of } from 'rxjs';
+import { Web3Service } from 'src/app/services/web3.service';
 
 @Component({
   selector: 'app-home',
@@ -6,7 +9,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor() {}
+  constructor(private _web3Service: Web3Service, private _ngZone: NgZone) {}
+  test!: any;
+  account$!: Observable<string>;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.test = this._web3Service.isConnected$;
+    this.account$ = this._web3Service.selectedAccount$;
+  }
+
+  async connect() {
+    try {
+      await this._web3Service.connect();
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EditTweetDialogComponent } from '../../dialogs/edit-tweet-dialog/edit-tweet-dialog.component';
@@ -9,10 +9,7 @@ import { EditTweetDialogComponent } from '../../dialogs/edit-tweet-dialog/edit-t
   styleUrls: ['./tweet.component.scss'],
 })
 export class TweetComponent {
-  longText = `The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog
-  from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was
-  originally bred for hunting.`;
-
+  @Input() msg = '';
   animal!: string;
   name!: string;
   constructor(private _dialog: MatDialog, private _snackBar: MatSnackBar) {}
@@ -20,7 +17,7 @@ export class TweetComponent {
   openDialog(): void {
     const dialogRef = this._dialog.open(EditTweetDialogComponent, {
       width: '50%',
-      data: { name: '', animal: this.longText },
+      data: { name: '', animal: this.msg },
     });
 
     dialogRef.afterClosed().subscribe(result => {

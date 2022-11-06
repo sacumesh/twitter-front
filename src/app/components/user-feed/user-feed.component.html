@@ -1,7 +1,7 @@
 <div class="feed">
-  <ng-container *ngFor="let tweet of tweets">
+  <ng-container *ngFor="let tweet of tweets$ | async">
     <div class="feed__item">
-      <app-tweet></app-tweet>
+      <app-tweet [msg]="tweet"></app-tweet>
     </div>
   </ng-container>
 </div>

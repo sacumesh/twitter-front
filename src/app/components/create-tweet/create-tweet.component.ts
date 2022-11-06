@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ContractService } from 'src/app/services/contract.service';
 
 @Component({
   selector: 'app-create-tweet',
@@ -6,7 +8,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-tweet.component.scss'],
 })
 export class CreateTweetComponent implements OnInit {
-  constructor() {}
+  tweetForm!: FormGroup;
 
-  ngOnInit(): void {}
+  constructor(
+    private _fb: FormBuilder,
+    private _contractService: ContractService
+  ) {}
+
+  ngOnInit(): void {
+    this.tweetForm = this._fb.group({
+      msg: [],
+    });
+  }
+
+  createTweet() {
+    const t = this.tweetForm.getRawValue();
+    this._contractService.createTweet(t.msg);
+  }
 }
