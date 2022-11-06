@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+
+.feed {
+  height: 80vh;
+  overflow-y: scroll;
+  &__item {
+    border: 1px solid rgba(0, 0, 0, 0.87);
+    &:not(:first-child) {
+      margin-top: 10px;
+    }
+  }
+}
