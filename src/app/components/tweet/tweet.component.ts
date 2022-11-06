@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EditTweetDialogComponent } from '../edit-tweet-dialog/edit-tweet-dialog.component';
+import { EditTweetDialogComponent } from '../../dialogs/edit-tweet-dialog/edit-tweet-dialog.component';
 
 @Component({
   selector: 'app-tweet',
