@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ContractService } from 'src/app/services/contract.service';
 
@@ -9,6 +9,7 @@ import { ContractService } from 'src/app/services/contract.service';
 })
 export class CreateTweetComponent implements OnInit {
   tweetForm!: FormGroup;
+  @Output() the = new EventEmitter<any>();
 
   constructor(
     private _fb: FormBuilder,
@@ -21,8 +22,8 @@ export class CreateTweetComponent implements OnInit {
     });
   }
 
-  createTweet() {
-    const t = this.tweetForm.getRawValue();
-    this._contractService.createTweet(t.msg);
+  async onSubmit() {
+    const msg = this.tweetForm.get('msg')?.value;
+    this.the.emit(msg);
   }
 }

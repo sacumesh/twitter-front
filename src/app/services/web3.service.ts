@@ -1,16 +1,15 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
-  delay,
+  catchError,
   distinctUntilChanged,
   from,
   fromEvent,
   map,
   merge,
   Observable,
-  Subject,
+  of,
   switchMap,
-  tap,
 } from 'rxjs';
 import Web3 from 'web3';
 import { enterZone } from '../utils/rxjs-operators/enter-zone';
@@ -43,9 +42,11 @@ export class Web3Service {
 
   async connect(): Promise<void> {
     try {
-      await this.ethereum.request({ method: 'eth_requestAccounts' });
-    } catch (e) {
-      this.handleError(e);
+      await this.ethereum.request({
+        method: 'eth_requestAccounts',
+      });
+    } catch (error) {
+      this.handleError(error);
     }
   }
 

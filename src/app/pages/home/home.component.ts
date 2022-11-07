@@ -1,8 +1,9 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { delay, Observable, of } from 'rxjs';
+import { BehaviorSubject, delay, Observable, of } from 'rxjs';
 import { ContractService } from 'src/app/services/contract.service';
 import { Web3Service } from 'src/app/services/web3.service';
+import { TweetsStore } from 'src/app/store/tweets.store';
 
 @Component({
   selector: 'app-home',
@@ -10,26 +11,37 @@ import { Web3Service } from 'src/app/services/web3.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor(
-    private _web3Service: Web3Service,
-    private _ngZone: NgZone,
-    private _contractService: ContractService
-  ) {}
-  test!: any;
+  tweets$!: BehaviorSubject<any[]>;
+  isConnectedToMetaMask$!: Observable<boolean>;
   account$!: Observable<string>;
 
+  constructor(
+    private _web3Service: Web3Service,
+    private _contractService: ContractService,
+    private _tweetsStore: TweetsStore
+  ) {}
+
   ngOnInit(): void {
-    this.test = this._web3Service.isConnected$;
+    this.tweets$ = this._tweetsStore.$tweets;
     this.account$ = this._web3Service.selectedAccount$;
+    this.isConnectedToMetaMask$ = this._web3Service.isConnected$;
   }
 
-  async connect() {
-    try {
-      await this._web3Service.connect();
-    } catch (e) {
-      console.log(e);
-    }
+  async connectToMetaMask() {
+    await this._web3Service.connect();
   }
 
-  async t() {}
+  onCreateTweet(msg: any) {
+    const currTweets = this.tweets$.getValue();
+    currTweets.push(msg);
+    this.tweets$.next(currTweets);
+  }
+
+  onDeleteTweet(msg: any) {
+    console.log('delete tweet');
+  }
+
+  onUpdateTweet(msg: any) {
+    console.log('update tweet');
+  }
 }

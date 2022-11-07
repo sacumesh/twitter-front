@@ -29,6 +29,7 @@ import { MetamaskNotFoundComponent } from './pages/metamask-not-found/metamask-n
 import { Web3Service } from './services/web3.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ContractService } from './services/contract.service';
+import { ConfirmComponent } from './dialogs/confirm/confirm.component';
 
 const providers: Provider[] = [
   {
@@ -75,6 +76,7 @@ if (web3Provider && web3Provider?.isMetaMask) {
     UserFeedComponent,
     HomeComponent,
     MetamaskNotFoundComponent,
+    ConfirmComponent,
   ],
   imports: [
     BrowserModule,

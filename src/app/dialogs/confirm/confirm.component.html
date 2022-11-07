@@ -1,0 +1,7 @@
+<div mat-dialog-content>
+  <div>{{ data.msg }}</div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
+</div>
