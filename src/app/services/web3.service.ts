@@ -12,6 +12,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
+import Web3 from 'web3';
 import { enterZone } from '../utils/rxjs-operators/enter-zone';
 
 @Injectable()
@@ -19,12 +20,14 @@ export class Web3Service {
   constructor(private _ngZone: NgZone, private _snackBar: MatSnackBar) {}
   isConnected$!: Observable<boolean>;
   selectedAccount$!: Observable<string>;
-  provider!: any;
+  web3!: Web3;
+  ethereum!: any;
 
-  init(provider: any): void {
-    this.provider = provider;
-    const accounts$ = from(provider.request({ method: 'eth_accounts' }));
-    const accountsChanged$ = fromEvent(provider, 'accountsChanged');
+  init(ethereum: any): void {
+    this.ethereum = ethereum;
+    this.web3 = new Web3(ethereum);
+    const accounts$ = from(ethereum.request({ method: 'eth_accounts' }));
+    const accountsChanged$ = fromEvent(ethereum, 'accountsChanged');
 
     const selectedAccount$ = merge(accounts$, accountsChanged$).pipe(
       map((accounts: any) => (accounts?.length > 0 ? accounts[0] : null))
@@ -40,7 +43,7 @@ export class Web3Service {
 
   async connect(): Promise<void> {
     try {
-      await this.provider.request({ method: 'eth_requestAccounts' });
+      await this.ethereum.request({ method: 'eth_requestAccounts' });
     } catch (e) {
       this.handleError(e);
     }

@@ -28,6 +28,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { MetamaskNotFoundComponent } from './pages/metamask-not-found/metamask-not-found.component';
 import { Web3Service } from './services/web3.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ContractService } from './services/contract.service';
 
 const providers: Provider[] = [
   {
@@ -47,12 +48,21 @@ if (web3Provider && web3Provider?.isMetaMask) {
   providers.push({
     provide: Web3Service,
     useFactory: (ngZone: NgZone, snackBar: MatSnackBar) => {
-      console.log(web3Provider);
       const web3Service = new Web3Service(ngZone, snackBar);
       web3Service.init(web3Provider);
       return web3Service;
     },
     deps: [NgZone, MatSnackBar],
+  });
+
+  providers.push({
+    provide: ContractService,
+    useFactory: async (web3Service: Web3Service) => {
+      const contractService = new ContractService(web3Service);
+      await contractService.init();
+      return contractService;
+    },
+    deps: [Web3Service],
   });
 }
 

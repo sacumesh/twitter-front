@@ -1,6 +1,7 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { delay, Observable, of } from 'rxjs';
+import { ContractService } from 'src/app/services/contract.service';
 import { Web3Service } from 'src/app/services/web3.service';
 
 @Component({
@@ -9,7 +10,11 @@ import { Web3Service } from 'src/app/services/web3.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private _web3Service: Web3Service, private _ngZone: NgZone) {}
+  constructor(
+    private _web3Service: Web3Service,
+    private _ngZone: NgZone,
+    private _contractService: ContractService
+  ) {}
   test!: any;
   account$!: Observable<string>;
 
@@ -25,4 +30,6 @@ export class HomeComponent implements OnInit {
       console.log(e);
     }
   }
+
+  async t() {}
 }
