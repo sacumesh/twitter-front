@@ -9,12 +9,9 @@ import { ContractService } from 'src/app/services/contract.service';
 })
 export class CreateTweetComponent implements OnInit {
   tweetForm!: FormGroup;
-  @Output() the = new EventEmitter<any>();
+  @Output() create = new EventEmitter<any>();
 
-  constructor(
-    private _fb: FormBuilder,
-    private _contractService: ContractService
-  ) {}
+  constructor(private _fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.tweetForm = this._fb.group({
@@ -24,6 +21,6 @@ export class CreateTweetComponent implements OnInit {
 
   async onSubmit() {
     const msg = this.tweetForm.get('msg')?.value;
-    this.the.emit(msg);
+    this.create.emit(msg);
   }
 }

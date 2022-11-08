@@ -1,16 +1,18 @@
 <mat-card class="tweet">
-  <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-  <mat-card-title>Shiba Inu</mat-card-title>
+  <mat-card-subtitle>Author: {{ tweet.author }}</mat-card-subtitle>
   <mat-card-content>
-    <p>{{ msg }}</p>
+    <p>{{ tweet.content }}</p>
   </mat-card-content>
-  <mat-divider inset></mat-divider>
-  <mat-card-actions class="tweet__actions">
-    <mat-spinner [diameter]="25"></mat-spinner>
-    <div class="">
-      <button mat-button color="primary" (click)="onUpdate()">EDIT</button>
-      <button mat-button color="warn" (click)="onDelete()">DELETE</button>
-    </div>
-  </mat-card-actions>
-  <mat-card-footer> </mat-card-footer>
+  <ng-container *ngIf="!readonly && !isLoading">
+    <mat-divider inset></mat-divider>
+    <mat-card-actions class="tweet__actions">
+      <ng-container *ngIf="isLoading">
+        <mat-spinner [diameter]="25"></mat-spinner>
+      </ng-container>
+      <div class="">
+        <button mat-button color="primary" (click)="onUpdate()">Edit</button>
+        <button mat-button color="warn" (click)="onDelete()">Delete</button>
+      </div>
+    </mat-card-actions>
+  </ng-container>
 </mat-card>

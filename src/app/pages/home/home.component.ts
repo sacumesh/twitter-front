@@ -4,6 +4,7 @@ import { BehaviorSubject, delay, Observable, of } from 'rxjs';
 import { ContractService } from 'src/app/services/contract.service';
 import { Web3Service } from 'src/app/services/web3.service';
 import { TweetsStore } from 'src/app/store/tweets.store';
+import { Tweet } from 'src/app/types/test';
 
 @Component({
   selector: 'app-home',
@@ -11,9 +12,9 @@ import { TweetsStore } from 'src/app/store/tweets.store';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  tweets$!: BehaviorSubject<any[]>;
-  isConnectedToMetaMask$!: Observable<boolean>;
-  account$!: Observable<string>;
+  tweets$!: BehaviorSubject<Tweet[]>;
+  isConnectedToMetaMask$ = of(false);
+  activeAccount$!: Observable<string>;
 
   constructor(
     private _web3Service: Web3Service,
@@ -21,9 +22,16 @@ export class HomeComponent implements OnInit {
     private _tweetsStore: TweetsStore
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.tweets$ = this._tweetsStore.$tweets;
-    this.account$ = this._web3Service.selectedAccount$;
+    if (this._tweetsStore.$tweets.getValue().length > 0) {
+    } else {
+      const tweets = await this._contractService.getTweets();
+      console.log(this._contractService);
+      console.log(tweets);
+      this.tweets$.next(tweets);
+    }
+    this.activeAccount$ = this._web3Service.selectedAccount$;
     this.isConnectedToMetaMask$ = this._web3Service.isConnected$;
   }
 
@@ -31,17 +39,33 @@ export class HomeComponent implements OnInit {
     await this._web3Service.connect();
   }
 
-  onCreateTweet(msg: any) {
-    const currTweets = this.tweets$.getValue();
-    currTweets.push(msg);
-    this.tweets$.next(currTweets);
+  async onCreateTweet(tweet: any) {
+    try {
+      await this._contractService.createTweet(tweet);
+      const tweets = await this._contractService.getTweets();
+      this._tweetsStore.$tweets.next(tweets);
+    } catch (error) {
+      this._web3Service.handleError(error);
+    }
   }
 
-  onDeleteTweet(msg: any) {
-    console.log('delete tweet');
+  async onDeleteTweet(tweet: any) {
+    try {
+      await this._contractService.deleteTweet(1, tweet);
+      const tweets = await this._contractService.getTweets();
+      this._tweetsStore.$tweets.next(tweets);
+    } catch (error) {
+      this._web3Service.handleError(error);
+    }
   }
 
-  onUpdateTweet(msg: any) {
-    console.log('update tweet');
+  async onUpdateTweet(tweet: any) {
+    try {
+      await this._contractService.updateTweet(1, tweet);
+      const tweets = await this._contractService.getTweets();
+      this._tweetsStore.$tweets.next(tweets);
+    } catch (error) {
+      this._web3Service.handleError(error);
+    }
   }
 }

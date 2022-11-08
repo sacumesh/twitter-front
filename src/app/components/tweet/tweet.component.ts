@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom } from 'rxjs';
 import { ConfirmComponent } from 'src/app/dialogs/confirm/confirm.component';
+import { Tweet } from 'src/app/types/test';
 import { EditTweetDialogComponent } from '../../dialogs/edit-tweet-dialog/edit-tweet-dialog.component';
 
 @Component({
@@ -11,14 +12,16 @@ import { EditTweetDialogComponent } from '../../dialogs/edit-tweet-dialog/edit-t
   styleUrls: ['./tweet.component.scss'],
 })
 export class TweetComponent {
-  @Input() msg = '';
+  @Input() tweet!: Tweet;
   @Output() delete = new EventEmitter();
   @Output() update = new EventEmitter();
+  @Input() readonly = true;
+  @Input() isLoading = false;
   constructor(private _dialog: MatDialog) {}
 
   async onUpdate(): Promise<void> {
     const dialogRef = this._dialog.open(EditTweetDialogComponent, {
-      data: { msg: this.msg },
+      data: { tweet: this.tweet },
     });
 
     const dialogResult = await firstValueFrom(dialogRef.afterClosed());

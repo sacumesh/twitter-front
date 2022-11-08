@@ -4,65 +4,56 @@ import { Web3Service } from './web3.service';
 import { Contract } from 'web3-eth-contract';
 import { abi } from '../smart-contract/abi';
 import { environment } from 'src/environments/environment';
+import { Tweet } from '../types/test';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ContractService {
   tweets$ = new BehaviorSubject<any[]>([]);
 
   smartContract!: Contract;
 
-  constructor(private _web3Service: Web3Service) {}
-
-  init() {
-    this.smartContract = new this._web3Service.web3.eth.Contract(
+  constructor(private _web3Service: Web3Service) {
+    this.smartContract = new (this._web3Service.web3 as any).eth.Contract(
       abi,
       environment.contractAddress
     );
   }
 
-  createTweet(tweet: any): Observable<void> {
-    const t = this.smartContract.methods
-      .createTweet()
-      .send({ from: 'account ' }) as Promise<void>;
-    return from(t).pipe(
-      catchError(err => {
-        this._web3Service.handleError(err);
-        return of();
-      })
-    );
+  createTweet(tweet: any): Promise<void> {
+    return this.smartContract.methods
+      .createTweet(tweet)
+      .send({ from: this._web3Service.selectedAccount });
   }
 
-  updateTweet(id: any, tweet: any): Observable<any> {
-    const t = this.smartContract.methods
+  updateTweet(id: any, tweet: any): Promise<void> {
+    return this.smartContract.methods
       .updateTweet(id, tweet)
-      .send({ from: 'account' }) as Promise<void>;
-    return from(t).pipe(
-      catchError(err => {
-        this._web3Service.handleError(err);
-        return of();
-      })
-    );
+      .send({ from: this._web3Service.selectedAccount });
   }
 
-  deleteTweet(id: any): Observable<void> {
-    const t = this.smartContract.methods
+  deleteTweet(id: any, tweet: any): Promise<void> {
+    return this.smartContract.methods
       .deleteTweet(id)
-      .send({ from: 'account' }) as Promise<void>;
-    return from(t).pipe(
-      catchError(err => {
-        this._web3Service.handleError(err);
-        return of();
-      })
-    );
+      .send({ from: this._web3Service.selectedAccount });
   }
 
-  getTweets(): Observable<any[]> {
-    const t = this.smartContract.methods.getTweets().call() as Promise<any[]>;
-    return from(t).pipe(
-      catchError(err => {
-        this._web3Service.handleError(err);
-        return [];
-      })
-    );
+  async getTweets(): Promise<Tweet[]> {
+    return this.smartContract.methods
+      .getTweets()
+      .call()
+      .then(this.mapTweetsResponseToTweets);
+  }
+
+  mapTweetsResponseToTweets(response: any) {
+    const newTweets = [];
+    for (let i = response[0].length - 1; i >= 0; i--) {
+      newTweets.push({
+        author: response[0][i],
+        content: response[1][i],
+        timestamp: response[2][i],
+        id: response[3][i],
+      });
+    }
+    return newTweets;
   }
 }

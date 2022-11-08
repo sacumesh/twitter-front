@@ -11,14 +11,18 @@
   </div>
   <div class="page__content">
     <div>
-      <div class="account">Account: {{ account$ | async }}</div>
-      <app-create-tweet (the)="onCreateTweet($event)"></app-create-tweet>
+      <div class="account">Account: {{ activeAccount$ | async }}</div>
+      <app-create-tweet (create)="onCreateTweet($event)"></app-create-tweet>
     </div>
     <app-user-feed>
       <ng-container *ngFor="let tweet of tweets$ | async">
         <div class="feed__item">
           <app-tweet
-            [msg]="tweet"
+            [readonly]="
+              tweet.author !== (activeAccount$ | async) ||
+              (isConnectedToMetaMask$ | async) === false
+            "
+            [tweet]="tweet"
             (delete)="onDeleteTweet($event)"
             (update)="onUpdateTweet($event)"></app-tweet>
         </div>

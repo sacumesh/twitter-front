@@ -13,11 +13,6 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'metamask-not-found',
-    component: MetamaskNotFoundComponent,
   },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];

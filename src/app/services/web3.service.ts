@@ -1,5 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { utils } from 'ethers';
 import {
   catchError,
   distinctUntilChanged,
@@ -12,32 +13,51 @@ import {
   switchMap,
 } from 'rxjs';
 import Web3 from 'web3';
+import { WebsocketProvider } from 'web3-core';
 import { enterZone } from '../utils/rxjs-operators/enter-zone';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class Web3Service {
-  constructor(private _ngZone: NgZone, private _snackBar: MatSnackBar) {}
-  isConnected$!: Observable<boolean>;
+  isConnected$ = of(false);
   selectedAccount$!: Observable<string>;
-  web3!: Web3;
+  selectedAccount!: string;
+  web3!: Web3 | WebsocketProvider;
   ethereum!: any;
 
-  init(ethereum: any): void {
-    this.ethereum = ethereum;
-    this.web3 = new Web3(ethereum);
-    const accounts$ = from(ethereum.request({ method: 'eth_accounts' }));
-    const accountsChanged$ = fromEvent(ethereum, 'accountsChanged');
+  constructor(private _ngZone: NgZone, private _snackBar: MatSnackBar) {
+    this.initService();
+  }
 
-    const selectedAccount$ = merge(accounts$, accountsChanged$).pipe(
-      map((accounts: any) => (accounts?.length > 0 ? accounts[0] : null))
-    );
+  initService(): void {
+    const ethereum = (window as any).ethereum;
+    if (ethereum !== undefined) {
+      this.ethereum = ethereum;
+      this.web3 = new Web3(ethereum);
+      const accounts$ = from(
+        ethereum.request({ method: 'eth_accounts' }) as Promise<string[]>
+      );
 
-    this.selectedAccount$ = selectedAccount$.pipe(enterZone(this._ngZone));
-    this.isConnected$ = selectedAccount$.pipe(
-      map(account => !!account),
-      distinctUntilChanged(),
-      enterZone(this._ngZone)
-    );
+      const accountsChanged$ = fromEvent<string[]>(ethereum, 'accountsChanged');
+
+      const selectedAccount$ = merge(accounts$, accountsChanged$).pipe(
+        map((accounts: string[]) =>
+          // https://github.com/MetaMask/metamask-extension/issues/10671
+          accounts?.length > 0 ? utils.getAddress(accounts[0]) : ''
+        )
+      );
+
+      this.selectedAccount$ = selectedAccount$.pipe(enterZone(this._ngZone));
+
+      this.isConnected$ = selectedAccount$.pipe(
+        map(account => !!account),
+        distinctUntilChanged(),
+        enterZone(this._ngZone)
+      );
+    } else {
+      this.web3 = new Web3.providers.WebsocketProvider(
+        'wss://ropsten.infura.io/ws/v3/c408acc6d32941a496920461a9c1335f'
+      );
+    }
   }
 
   async connect(): Promise<void> {
