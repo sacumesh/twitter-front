@@ -11,7 +11,9 @@ import {
   Observable,
   of,
   switchMap,
+  tap,
 } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import Web3 from 'web3';
 import { WebsocketProvider } from 'web3-core';
 import { enterZone } from '../utils/rxjs-operators/enter-zone';
@@ -20,8 +22,7 @@ import { enterZone } from '../utils/rxjs-operators/enter-zone';
 export class Web3Service {
   isConnected$ = of(false);
   selectedAccount$!: Observable<string>;
-  selectedAccount!: string;
-  web3!: Web3 | WebsocketProvider;
+  web3!: Web3;
   ethereum!: any;
 
   constructor(private _ngZone: NgZone, private _snackBar: MatSnackBar) {
@@ -33,9 +34,7 @@ export class Web3Service {
     if (ethereum !== undefined) {
       this.ethereum = ethereum;
       this.web3 = new Web3(ethereum);
-      const accounts$ = from(
-        ethereum.request({ method: 'eth_accounts' }) as Promise<string[]>
-      );
+      const accounts$ = from(this.web3.eth.getAccounts());
 
       const accountsChanged$ = fromEvent<string[]>(ethereum, 'accountsChanged');
 
@@ -55,23 +54,32 @@ export class Web3Service {
       );
     } else {
       this.web3 = new Web3.providers.WebsocketProvider(
-        'wss://ropsten.infura.io/ws/v3/c408acc6d32941a496920461a9c1335f'
-      );
+        environment.web3WebsocketProviderHost
+      ) as unknown as Web3;
     }
   }
 
   async connect(): Promise<void> {
     try {
-      await this.ethereum.request({
-        method: 'eth_requestAccounts',
-      });
+      await this.web3.eth.requestAccounts();
     } catch (error) {
       this.handleError(error);
     }
   }
 
+  async getAccount(): Promise<string> {
+    let account = '';
+    try {
+      account = (await this.web3.eth.getAccounts())[0];
+    } catch (error) {
+      this.handleError(error);
+    }
+    return account;
+  }
+
   handleError(e: any) {
     let errorMsg: string;
+    console.log(e);
     switch (e.code) {
       case -32700:
         errorMsg = 'Parse error	Invalid JSON	standard';

@@ -3,4 +3,5 @@ export interface Tweet {
   author: string;
   content: string;
   timestamp: string;
+  isLoading: boolean;
 }

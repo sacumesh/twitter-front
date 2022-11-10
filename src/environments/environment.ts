@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   contractAddress: '0x1374Fe6f9fd26c30dE3e0e70e121d1f596F867dD',
+  web3WebsocketProviderHost:
+    'wss://ropsten.infura.io/ws/v3/c408acc6d32941a496920461a9c1335f',
 };
 
 /*

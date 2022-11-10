@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   tweets$!: BehaviorSubject<Tweet[]>;
   isConnectedToMetaMask$ = of(false);
   activeAccount$!: Observable<string>;
+  isLoading = false;
 
   constructor(
     private _web3Service: Web3Service,
@@ -27,19 +28,18 @@ export class HomeComponent implements OnInit {
     if (this._tweetsStore.$tweets.getValue().length > 0) {
     } else {
       const tweets = await this._contractService.getTweets();
-      console.log(this._contractService);
-      console.log(tweets);
       this.tweets$.next(tweets);
     }
     this.activeAccount$ = this._web3Service.selectedAccount$;
     this.isConnectedToMetaMask$ = this._web3Service.isConnected$;
   }
 
-  async connectToMetaMask() {
+  async connectToMetaMask(): Promise<void> {
     await this._web3Service.connect();
   }
 
   async onCreateTweet(tweet: any) {
+    this.isLoading = true;
     try {
       await this._contractService.createTweet(tweet);
       const tweets = await this._contractService.getTweets();
@@ -47,11 +47,12 @@ export class HomeComponent implements OnInit {
     } catch (error) {
       this._web3Service.handleError(error);
     }
+    this.isLoading = false;
   }
 
-  async onDeleteTweet(tweet: any) {
+  async onDeleteTweet(content: string, tweet: Tweet) {
     try {
-      await this._contractService.deleteTweet(1, tweet);
+      await this._contractService.deleteTweet(1);
       const tweets = await this._contractService.getTweets();
       this._tweetsStore.$tweets.next(tweets);
     } catch (error) {
@@ -59,9 +60,9 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  async onUpdateTweet(tweet: any) {
+  async onUpdateTweet(content: string, tweet: Tweet) {
     try {
-      await this._contractService.updateTweet(1, tweet);
+      await this._contractService.updateTweet(1, content);
       const tweets = await this._contractService.getTweets();
       this._tweetsStore.$tweets.next(tweets);
     } catch (error) {

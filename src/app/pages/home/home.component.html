@@ -1,3 +1,7 @@
+<div *ngIf="isLoading">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
 <div class="page">
   <div class="page__header">
     <button
@@ -18,13 +22,10 @@
       <ng-container *ngFor="let tweet of tweets$ | async">
         <div class="feed__item">
           <app-tweet
-            [readonly]="
-              tweet.author !== (activeAccount$ | async) ||
-              (isConnectedToMetaMask$ | async) === false
-            "
+            [readonly]="tweet.author !== (activeAccount$ | async)"
             [tweet]="tweet"
-            (delete)="onDeleteTweet($event)"
-            (update)="onUpdateTweet($event)"></app-tweet>
+            (delete)="onDeleteTweet($event, tweet)"
+            (update)="onUpdateTweet($event, tweet)"></app-tweet>
         </div>
       </ng-container>
     </app-user-feed>

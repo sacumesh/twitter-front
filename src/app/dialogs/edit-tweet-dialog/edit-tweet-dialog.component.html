@@ -1,23 +1,32 @@
-<mat-label>
-  <span>Author: </span>
-  <span>{{ data.tweet.author }}</span>
-</mat-label>
-<div mat-dialog-content>
-  <mat-form-field class="form-field" appearance="fill">
-    <mat-label>Your tweet</mat-label>
-    <textarea
-      matInput
-      [(ngModel)]="data.tweet.content"
-      cdkTextareaAutosize
-      cdkAutosizeMinRows="1"
-      cdkAutosizeMaxRows="10"
-      placeholder="hi">
-    </textarea>
-  </mat-form-field>
-</div>
-<div mat-dialog-actions>
-  <button mat-button cdkFocusInitial (click)="onNoClick()">Cancel</button>
-  <button mat-button color="warn" [mat-dialog-close]="data.tweet.content">
-    Ok
-  </button>
-</div>
+<form (ngSubmit)="onNoClick()" #heroForm="ngForm">
+  <mat-label>
+    <span>Author: </span>
+    <span>{{ data.tweet.author }}</span>
+  </mat-label>
+  <div mat-dialog-content>
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Your tweet</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="content"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="10"
+        placeholder="hi"
+        required
+        name="content">
+      </textarea>
+    </mat-form-field>
+  </div>
+  <div>{{ heroForm.pristine | json }}</div>
+  <div mat-dialog-actions>
+    <button
+      mat-button
+      cdkFocusInitial
+      type="submit"
+      [disabled]="!heroForm.form.valid || !heroForm.form.dirty">
+      Cancel
+    </button>
+    <button mat-button color="warn" [mat-dialog-close]="content">Ok</button>
+  </div>
+</form>

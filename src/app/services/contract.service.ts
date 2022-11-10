@@ -8,8 +8,6 @@ import { Tweet } from '../types/test';
 
 @Injectable({ providedIn: 'root' })
 export class ContractService {
-  tweets$ = new BehaviorSubject<any[]>([]);
-
   smartContract!: Contract;
 
   constructor(private _web3Service: Web3Service) {
@@ -19,22 +17,21 @@ export class ContractService {
     );
   }
 
-  createTweet(tweet: any): Promise<void> {
+  async createTweet(tweet: any): Promise<void> {
+    const account = await this._web3Service.getAccount();
     return this.smartContract.methods
       .createTweet(tweet)
-      .send({ from: this._web3Service.selectedAccount });
+      .send({ from: account });
   }
 
-  updateTweet(id: any, tweet: any): Promise<void> {
-    return this.smartContract.methods
-      .updateTweet(id, tweet)
-      .send({ from: this._web3Service.selectedAccount });
+  async updateTweet(id: any, tweet: any): Promise<void> {
+    const account = await this._web3Service.getAccount();
+    return this.smartContract.methods.updateTweet(id, tweet).send({ account });
   }
 
-  deleteTweet(id: any, tweet: any): Promise<void> {
-    return this.smartContract.methods
-      .deleteTweet(id)
-      .send({ from: this._web3Service.selectedAccount });
+  async deleteTweet(id: any): Promise<void> {
+    const account = await this._web3Service.getAccount();
+    return this.smartContract.methods.deleteTweet(id).send({ from: account });
   }
 
   async getTweets(): Promise<Tweet[]> {
@@ -52,6 +49,7 @@ export class ContractService {
         content: response[1][i],
         timestamp: response[2][i],
         id: response[3][i],
+        isLoading: false,
       });
     }
     return newTweets;

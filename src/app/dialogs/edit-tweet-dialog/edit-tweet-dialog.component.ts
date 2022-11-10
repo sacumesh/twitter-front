@@ -11,11 +11,16 @@ export interface DialogData {
   templateUrl: './edit-tweet-dialog.component.html',
   styleUrls: ['./edit-tweet-dialog.component.scss'],
 })
-export class EditTweetDialogComponent {
+export class EditTweetDialogComponent implements OnInit {
+  content: string = '';
   constructor(
     public dialogRef: MatDialogRef<EditTweetDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
+
+  ngOnInit(): void {
+    this.content = this.data.tweet.content;
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
