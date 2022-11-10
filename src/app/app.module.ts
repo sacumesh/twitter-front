@@ -25,7 +25,7 @@ import {
 import { UserFeedComponent } from './components/user-feed/user-feed.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HomeComponent } from './pages/home/home.component';
-import { MetamaskNotFoundComponent } from './pages/metamask-not-found/metamask-not-found.component';
+import { EthereumMissingComponent } from './pages/etherum-missing/ethereum-missing.component';
 import { Web3Service } from './services/web3.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ContractService } from './services/contract.service';
@@ -50,7 +50,7 @@ const providers: Provider[] = [
     EditTweetDialogComponent,
     UserFeedComponent,
     HomeComponent,
-    MetamaskNotFoundComponent,
+    EthereumMissingComponent,
     ConfirmComponent,
   ],
   imports: [
