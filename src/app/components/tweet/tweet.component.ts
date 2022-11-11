@@ -39,14 +39,13 @@ export class TweetComponent {
   @Input() readonly = true;
   @Input() isLoading = false;
   rippleDisabled = false;
-  test = false;
-  k = false;
+  showCardActions = false;
 
   @HostBinding('class.tweet') private isHostClassShown = true;
   constructor(private _dialog: MatDialog) {}
 
   @HostListener('click') onClick() {
-    this.test = !this.test;
+    this.showCardActions = !this.showCardActions;
   }
 
   async onUpdate(): Promise<void> {
@@ -76,8 +75,5 @@ export class TweetComponent {
 
   enableRipple(): void {
     this.rippleDisabled = false;
-  }
-  t() {
-    this.k = !this.k;
   }
 }

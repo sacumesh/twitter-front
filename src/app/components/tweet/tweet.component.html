@@ -14,19 +14,15 @@
     <div
       class="mat-card__dropdown"
       [@inOutAnimation]
-      *ngIf="!readonly && !isLoading && test">
-      <div>
-        <ng-container *ngIf="true">
-          <mat-spinner [diameter]="25"></mat-spinner>
-        </ng-container>
-      </div>
+      *ngIf="!readonly && this.showCardActions">
+      <div></div>
       <div class="mat-card__actions">
         <button
           mat-button
           color="primary"
           (mouseenter)="disableRipple()"
           (mouseleave)="enableRipple()"
-          (click)="onUpdate()">
+          (click)="$event.stopPropagation(); onUpdate()">
           Edit
         </button>
         <button
@@ -34,12 +30,15 @@
           (mouseleave)="enableRipple()"
           mat-button
           color="warn"
-          (click)="onDelete()">
+          (click)="$event.stopPropagation(); onDelete()">
           Delete
         </button>
       </div>
     </div>
   </mat-card>
 </div>
-
-<div (click)="t()" class="abc">ewwew</div>
+<ng-container *ngIf="isLoading">
+  <div class="spinner">
+    <mat-spinner [diameter]="25"></mat-spinner>
+  </div>
+</ng-container>
