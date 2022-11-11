@@ -1,5 +1,9 @@
+@import '/src/styles/abstracts/variables';
+
 .page {
-  margin-top: 50px;
+  position: relative;
+  height: 100vh;
+  padding-top: 80px;
   &__header {
     display: flex;
     justify-content: center;
@@ -15,9 +19,4 @@
 
 .account {
   margin-bottom: 16px;
-}
-
-.ex {
-  height: 50px;
-  width: 250px;
 }

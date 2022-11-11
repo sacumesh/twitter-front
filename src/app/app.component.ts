@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { Web3Service } from './services/web3.service';
+import { Component } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { NavbarService } from './services/navbar.service';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +9,8 @@ import { Web3Service } from './services/web3.service';
 })
 export class AppComponent {
   title = 'twitter-front';
-  constructor() {}
+  showProgressBar$!: BehaviorSubject<boolean>;
+  constructor(private _navbarService: NavbarService) {
+    this.showProgressBar$ = this._navbarService.showProgressBar$;
+  }
 }

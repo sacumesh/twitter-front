@@ -13,12 +13,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CreateTweetComponent } from './components/create-tweet/create-tweet.component';
 import { MatInputModule } from '@angular/material/input';
 import { EditTweetDialogComponent } from './dialogs/edit-tweet-dialog/edit-tweet-dialog.component';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
-  MatSnackBar,
   MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
 } from '@angular/material/snack-bar';
@@ -26,10 +25,9 @@ import { UserFeedComponent } from './components/user-feed/user-feed.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HomeComponent } from './pages/home/home.component';
 import { EthereumMissingComponent } from './pages/etherum-missing/ethereum-missing.component';
-import { Web3Service } from './services/web3.service';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ContractService } from './services/contract.service';
 import { ConfirmComponent } from './dialogs/confirm/confirm.component';
+import { MatRippleModule } from '@angular/material/core';
 
 const providers: Provider[] = [
   {
@@ -71,6 +69,7 @@ const providers: Provider[] = [
     MatListModule,
     MatProgressSpinnerModule,
     ScrollingModule,
+    MatRippleModule,
   ],
   providers,
   bootstrap: [AppComponent],

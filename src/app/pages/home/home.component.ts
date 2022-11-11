@@ -1,7 +1,8 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, HostListener, NgZone, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, delay, Observable, of } from 'rxjs';
 import { ContractService } from 'src/app/services/contract.service';
+import { NavbarService } from 'src/app/services/navbar.service';
 import { Web3Service } from 'src/app/services/web3.service';
 import { TweetsStore } from 'src/app/store/tweets.store';
 import { Tweet } from 'src/app/types/test';
@@ -20,7 +21,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private _web3Service: Web3Service,
     private _contractService: ContractService,
-    private _tweetsStore: TweetsStore
+    private _tweetsStore: TweetsStore,
+    private _navbarService: NavbarService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -35,11 +37,13 @@ export class HomeComponent implements OnInit {
   }
 
   async connectToMetaMask(): Promise<void> {
+    this._navbarService.showProgressBar$.next(true);
     await this._web3Service.connect();
+    this._navbarService.showProgressBar$.next(true);
   }
 
   async onCreateTweet(tweet: any) {
-    this.isLoading = true;
+    this._navbarService.showProgressBar$.next(true);
     try {
       await this._contractService.createTweet(tweet);
       const tweets = await this._contractService.getTweets();
@@ -47,7 +51,7 @@ export class HomeComponent implements OnInit {
     } catch (error) {
       this._web3Service.handleError(error);
     }
-    this.isLoading = false;
+    this._navbarService.showProgressBar$.next(false);
   }
 
   async onDeleteTweet(content: string, tweet: Tweet) {

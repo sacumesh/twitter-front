@@ -1,8 +1,26 @@
-.tweet {
+.tweet:host {
+  position: relative;
+  display: block;
+
+  &:nth-child(odd) {
+    background: rgba(63, 81, 181, 0.15);
+  }
+}
+.test {
+  position: relative;
+  cursor: pointer;
+}
+
+.mat-card {
+  background: rgb(0, 0, 0, 0);
   box-shadow: none;
 
-  &__actions {
+  &__dropdown {
     display: flex;
     justify-content: space-between;
+    margin-top: 16px;
+  }
+  &__content {
+    margin-bottom: 0;
   }
 }
