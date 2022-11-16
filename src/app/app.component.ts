@@ -8,8 +8,8 @@ import { NavbarService } from './services/navbar.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'twitter-front';
   showProgressBar$!: BehaviorSubject<boolean>;
+
   constructor(private _navbarService: NavbarService) {
     this.showProgressBar$ = this._navbarService.showProgressBar$;
   }

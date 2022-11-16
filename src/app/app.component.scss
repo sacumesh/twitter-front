@@ -1,7 +1,17 @@
-.app-navbar {
+@import '/src/styles/abstracts/variables';
+.navbar {
   position: fixed;
   width: 100vw;
   top: 0;
   left: 0;
   background-color: #3f51b5;
+  display: flex;
+  justify-content: center;
+
+  &__title {
+    color: $color-white;
+    font-weight: normal;
+    font-size: 3.5rem;
+    margin: 28px;
+  }
 }

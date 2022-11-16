@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom } from 'rxjs';
 import { ConfirmComponent } from 'src/app/dialogs/confirm/confirm.component';
-import { Tweet } from 'src/app/types/test';
+import { Tweet } from 'src/app/types/app.types';
 import { EditTweetDialogComponent } from '../../dialogs/edit-tweet-dialog/edit-tweet-dialog.component';
 
 @Component({
@@ -37,15 +37,15 @@ export class TweetComponent {
   @Output() delete = new EventEmitter();
   @Output() update = new EventEmitter();
   @Input() readonly = true;
+  @Input() selected = false;
   @Input() isLoading = false;
   rippleDisabled = false;
-  showCardActions = false;
 
   @HostBinding('class.tweet') private isHostClassShown = true;
   constructor(private _dialog: MatDialog) {}
 
-  @HostListener('click') onClick() {
-    this.showCardActions = !this.showCardActions;
+  @HostListener('click') test() {
+    console.log(this.isLoading);
   }
 
   async onUpdate(): Promise<void> {

@@ -21,32 +21,20 @@ import {
   MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
 } from '@angular/material/snack-bar';
-import { UserFeedComponent } from './components/user-feed/user-feed.component';
+import { TweetFeedComponent } from './components/user-feed/tweet-feed.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HomeComponent } from './pages/home/home.component';
 import { EthereumMissingComponent } from './pages/etherum-missing/ethereum-missing.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmComponent } from './dialogs/confirm/confirm.component';
 import { MatRippleModule } from '@angular/material/core';
-
-const providers: Provider[] = [
-  {
-    provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
-    useValue: {
-      duration: 2500,
-      verticalPosition: 'center',
-      horizontalPosition: 'center',
-    },
-  },
-];
-
 @NgModule({
   declarations: [
     AppComponent,
     TweetComponent,
     CreateTweetComponent,
     EditTweetDialogComponent,
-    UserFeedComponent,
+    TweetFeedComponent,
     HomeComponent,
     EthereumMissingComponent,
     ConfirmComponent,
@@ -71,7 +59,16 @@ const providers: Provider[] = [
     ScrollingModule,
     MatRippleModule,
   ],
-  providers,
+  providers: [
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {
+        duration: 2500,
+        verticalPosition: 'center',
+        horizontalPosition: 'center',
+      },
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

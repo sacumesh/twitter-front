@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Tweet } from '../types/test';
+import { Tweet } from '../types/app.types';
 
 @Injectable({
   providedIn: 'root',

@@ -14,7 +14,8 @@
     class="add-tweet-form__submit-btn"
     mat-flat-button
     color="primary"
-    (click)="onSubmit()">
+    (click)="onSubmit()"
+    [disabled]="disabled || tweetForm.invalid">
     Tweet
   </button>
 </form>

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContractService } from 'src/app/services/contract.service';
 
 @Component({
@@ -10,17 +10,19 @@ import { ContractService } from 'src/app/services/contract.service';
 export class CreateTweetComponent implements OnInit {
   tweetForm!: FormGroup;
   @Output() create = new EventEmitter<any>();
+  @Input() disabled = true;
 
   constructor(private _fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.tweetForm = this._fb.group({
-      msg: [],
+      msg: ['', [Validators.required]],
     });
   }
 
   async onSubmit() {
     const msg = this.tweetForm.get('msg')?.value;
+    this.tweetForm.reset();
     this.create.emit(msg);
   }
 }

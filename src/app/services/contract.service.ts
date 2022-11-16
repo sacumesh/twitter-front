@@ -4,7 +4,7 @@ import { Web3Service } from './web3.service';
 import { Contract } from 'web3-eth-contract';
 import { abi } from '../smart-contract/abi';
 import { environment } from 'src/environments/environment';
-import { Tweet } from '../types/test';
+import { Tweet } from '../types/app.types';
 
 @Injectable({ providedIn: 'root' })
 export class ContractService {
@@ -17,19 +17,21 @@ export class ContractService {
     );
   }
 
-  async createTweet(tweet: any): Promise<void> {
+  async createTweet(content: string): Promise<void> {
     const account = await this._web3Service.getAccount();
     return this.smartContract.methods
-      .createTweet(tweet)
+      .createTweet(content)
       .send({ from: account });
   }
 
-  async updateTweet(id: any, tweet: any): Promise<void> {
+  async updateTweet(id: number, content: string): Promise<void> {
     const account = await this._web3Service.getAccount();
-    return this.smartContract.methods.updateTweet(id, tweet).send({ account });
+    return this.smartContract.methods
+      .updateTweet(id, content)
+      .send({ from: account });
   }
 
-  async deleteTweet(id: any): Promise<void> {
+  async deleteTweet(id: number): Promise<void> {
     const account = await this._web3Service.getAccount();
     return this.smartContract.methods.deleteTweet(id).send({ from: account });
   }
@@ -41,17 +43,12 @@ export class ContractService {
       .then(this.mapTweetsResponseToTweets);
   }
 
-  mapTweetsResponseToTweets(response: any) {
-    const newTweets = [];
-    for (let i = response[0].length - 1; i >= 0; i--) {
-      newTweets.push({
-        author: response[0][i],
-        content: response[1][i],
-        timestamp: response[2][i],
-        id: response[3][i],
-        isLoading: false,
-      });
-    }
-    return newTweets;
+  mapTweetsResponseToTweets(response: any): Tweet {
+    return {
+      author: response.author,
+      content: response.content,
+      timestamp: response.timestamp,
+      id: response.id,
+    };
   }
 }

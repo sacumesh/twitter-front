@@ -35,6 +35,7 @@ export class Web3Service {
       this.ethereum = ethereum;
       this.web3 = new Web3(ethereum);
       const accounts$ = from(this.web3.eth.getAccounts());
+      this.web3.eth.getAccounts().then(console.log);
 
       const accountsChanged$ = fromEvent<string[]>(ethereum, 'accountsChanged');
 
@@ -79,7 +80,6 @@ export class Web3Service {
 
   handleError(e: any) {
     let errorMsg: string;
-    console.log(e);
     switch (e.code) {
       case -32700:
         errorMsg = 'Parse error	Invalid JSON	standard';
@@ -139,6 +139,7 @@ export class Web3Service {
       default:
         errorMsg = 'Unknow Error';
     }
+    console.error(e);
     this._snackBar.open(errorMsg);
   }
 }
