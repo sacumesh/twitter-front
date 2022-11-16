@@ -2,7 +2,6 @@ import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { utils } from 'ethers';
 import {
-  catchError,
   distinctUntilChanged,
   from,
   fromEvent,
@@ -10,12 +9,9 @@ import {
   merge,
   Observable,
   of,
-  switchMap,
-  tap,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import Web3 from 'web3';
-import { WebsocketProvider } from 'web3-core';
 import { enterZone } from '../utils/rxjs-operators/enter-zone';
 
 @Injectable({ providedIn: 'root' })
@@ -35,7 +31,6 @@ export class Web3Service {
       this.ethereum = ethereum;
       this.web3 = new Web3(ethereum);
       const accounts$ = from(this.web3.eth.getAccounts());
-      this.web3.eth.getAccounts().then(console.log);
 
       const accountsChanged$ = fromEvent<string[]>(ethereum, 'accountsChanged');
 
@@ -78,7 +73,7 @@ export class Web3Service {
     return account;
   }
 
-  handleError(e: any) {
+  handleError(e: any): void {
     let errorMsg: string;
     switch (e.code) {
       case -32700:

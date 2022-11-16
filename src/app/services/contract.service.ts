@@ -1,5 +1,4 @@
 import { Injectable, OnInit, Optional } from '@angular/core';
-import { BehaviorSubject, catchError, from, Observable, of } from 'rxjs';
 import { Web3Service } from './web3.service';
 import { Contract } from 'web3-eth-contract';
 import { abi } from '../smart-contract/abi';
