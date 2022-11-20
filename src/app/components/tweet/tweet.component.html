@@ -1,0 +1,16 @@
+<mat-card class="tweet">
+  <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+  <mat-card-title>Shiba Inu</mat-card-title>
+  <mat-card-content>
+    <p>{{ longText }}</p>
+  </mat-card-content>
+  <mat-divider inset></mat-divider>
+  <mat-card-actions class="tweet__actions">
+    <mat-spinner [diameter]="25"></mat-spinner>
+    <div class="">
+      <button mat-button color="primary" (click)="openDialog()">EDIT</button>
+      <button mat-button color="warn" (click)="openSnackBar()">DELETE</button>
+    </div>
+  </mat-card-actions>
+  <mat-card-footer> </mat-card-footer>
+</mat-card>
