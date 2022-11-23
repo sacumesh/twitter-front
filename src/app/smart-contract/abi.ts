@@ -22,23 +22,55 @@ export const abi: AbiItem[] = [
         type: 'uint256',
       },
     ],
-    name: 'getTweet',
+    name: 'deleteTweet',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getTweets',
     outputs: [
       {
-        internalType: 'address',
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'id',
+            type: 'uint256',
+          },
+          {
+            internalType: 'address',
+            name: 'author',
+            type: 'address',
+          },
+          {
+            internalType: 'string',
+            name: 'content',
+            type: 'string',
+          },
+          {
+            internalType: 'enum Twitter.TweetStatus',
+            name: 'status',
+            type: 'uint8',
+          },
+          {
+            internalType: 'uint256',
+            name: 'timestamp',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct Twitter.Tweet[]',
         name: '',
-        type: 'address',
+        type: 'tuple[]',
       },
-      {
-        internalType: 'string',
-        name: '',
-        type: 'string',
-      },
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'tweetCount',
+    outputs: [
       {
         internalType: 'uint256',
         name: '',
@@ -49,28 +81,39 @@ export const abi: AbiItem[] = [
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'getTweets',
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    name: 'tweets',
     outputs: [
       {
-        internalType: 'address[]',
-        name: '',
-        type: 'address[]',
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
       },
       {
-        internalType: 'string[]',
-        name: '',
-        type: 'string[]',
+        internalType: 'address',
+        name: 'author',
+        type: 'address',
       },
       {
-        internalType: 'uint256[]',
-        name: '',
-        type: 'uint256[]',
+        internalType: 'string',
+        name: 'content',
+        type: 'string',
       },
       {
-        internalType: 'uint256[]',
-        name: '',
-        type: 'uint256[]',
+        internalType: 'enum Twitter.TweetStatus',
+        name: 'status',
+        type: 'uint8',
+      },
+      {
+        internalType: 'uint256',
+        name: 'timestamp',
+        type: 'uint256',
       },
     ],
     stateMutability: 'view',
@@ -85,7 +128,7 @@ export const abi: AbiItem[] = [
       },
       {
         internalType: 'string',
-        name: '_newContent',
+        name: '_content',
         type: 'string',
       },
     ],
@@ -94,17 +137,113 @@ export const abi: AbiItem[] = [
     stateMutability: 'nonpayable',
     type: 'function',
   },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: '_id',
-        type: 'uint256',
-      },
-    ],
-    name: 'deleteTweet',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
 ];
+
+// [
+//   {
+//     inputs: [
+//       {
+//         internalType: 'string',
+//         name: '_content',
+//         type: 'string',
+//       },
+//     ],
+//     name: 'createTweet',
+//     outputs: [],
+//     stateMutability: 'nonpayable',
+//     type: 'function',
+//   },
+//   {
+//     inputs: [
+//       {
+//         internalType: 'uint256',
+//         name: '_id',
+//         type: 'uint256',
+//       },
+//     ],
+//     name: 'getTweet',
+//     outputs: [
+//       {
+//         internalType: 'address',
+//         name: '',
+//         type: 'address',
+//       },
+//       {
+//         internalType: 'string',
+//         name: '',
+//         type: 'string',
+//       },
+//       {
+//         internalType: 'uint256',
+//         name: '',
+//         type: 'uint256',
+//       },
+//       {
+//         internalType: 'uint256',
+//         name: '',
+//         type: 'uint256',
+//       },
+//     ],
+//     stateMutability: 'view',
+//     type: 'function',
+//   },
+//   {
+//     inputs: [],
+//     name: 'getTweets',
+//     outputs: [
+//       {
+//         internalType: 'address[]',
+//         name: '',
+//         type: 'address[]',
+//       },
+//       {
+//         internalType: 'string[]',
+//         name: '',
+//         type: 'string[]',
+//       },
+//       {
+//         internalType: 'uint256[]',
+//         name: '',
+//         type: 'uint256[]',
+//       },
+//       {
+//         internalType: 'uint256[]',
+//         name: '',
+//         type: 'uint256[]',
+//       },
+//     ],
+//     stateMutability: 'view',
+//     type: 'function',
+//   },
+//   {
+//     inputs: [
+//       {
+//         internalType: 'uint256',
+//         name: '_id',
+//         type: 'uint256',
+//       },
+//       {
+//         internalType: 'string',
+//         name: '_newContent',
+//         type: 'string',
+//       },
+//     ],
+//     name: 'updateTweet',
+//     outputs: [],
+//     stateMutability: 'nonpayable',
+//     type: 'function',
+//   },
+//   {
+//     inputs: [
+//       {
+//         internalType: 'uint256',
+//         name: '_id',
+//         type: 'uint256',
+//       },
+//     ],
+//     name: 'deleteTweet',
+//     outputs: [],
+//     stateMutability: 'nonpayable',
+//     type: 'function',
+//   },
+// ];

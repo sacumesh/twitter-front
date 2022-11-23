@@ -43,11 +43,13 @@ export class ContractService {
   }
 
   mapTweetsResponseToTweets(response: any): Tweet {
-    return {
-      author: response.author,
-      content: response.content,
-      timestamp: response.timestamp,
-      id: response.id,
-    };
+    return response.map((tweet: any) => {
+      return {
+        author: tweet.author,
+        content: tweet.content,
+        timestamp: tweet.timestamp,
+        id: tweet.id,
+      };
+    });
   }
 }
