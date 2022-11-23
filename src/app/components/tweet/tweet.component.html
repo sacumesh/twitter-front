@@ -1,16 +1,44 @@
-<mat-card class="tweet">
-  <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-  <mat-card-title>Shiba Inu</mat-card-title>
-  <mat-card-content>
-    <p>{{ longText }}</p>
-  </mat-card-content>
-  <mat-divider inset></mat-divider>
-  <mat-card-actions class="tweet__actions">
-    <mat-spinner [diameter]="25"></mat-spinner>
-    <div class="">
-      <button mat-button color="primary" (click)="openDialog()">EDIT</button>
-      <button mat-button color="warn" (click)="openSnackBar()">DELETE</button>
+<div
+  class="container loading-fog"
+  [class.loading-fog--show]="isLoading"
+  [class.test]="!readonly && !isLoading"
+  matRipple
+  [matRippleCentered]="false"
+  [matRippleDisabled]="rippleDisabled"
+  [matRippleUnbounded]="false">
+  <mat-card class="mat-card">
+    <mat-card-subtitle>Author: {{ tweet.author }}</mat-card-subtitle>
+    <mat-card-content class="mat-card__content">
+      <p class="test">{{ tweet.content }}</p>
+    </mat-card-content>
+    <div
+      class="mat-card__dropdown"
+      [@inOutAnimation]
+      *ngIf="!readonly && selected">
+      <div></div>
+      <div class="mat-card__actions">
+        <button
+          mat-button
+          color="primary"
+          (mouseenter)="disableRipple()"
+          (mouseleave)="enableRipple()"
+          (click)="$event.stopPropagation(); onUpdate()">
+          Edit
+        </button>
+        <button
+          (mouseenter)="disableRipple()"
+          (mouseleave)="enableRipple()"
+          mat-button
+          color="warn"
+          (click)="$event.stopPropagation(); onDelete()">
+          Delete
+        </button>
+      </div>
     </div>
-  </mat-card-actions>
-  <mat-card-footer> </mat-card-footer>
-</mat-card>
+  </mat-card>
+</div>
+<ng-container *ngIf="isLoading">
+  <div class="spinner">
+    <mat-spinner [diameter]="25"></mat-spinner>
+  </div>
+</ng-container>

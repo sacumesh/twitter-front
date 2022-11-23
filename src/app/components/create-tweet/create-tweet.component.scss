@@ -1,8 +1,8 @@
-::host {
+:host {
   display: block;
 }
 
-.add-tweet-form {
+.tweet-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,9 +16,4 @@
     width: 500px;
     height: 40px;
   }
-}
-
-.ex {
-  width: 500px;
-  margin-bottom: 50px;
 }

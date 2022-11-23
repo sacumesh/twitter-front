@@ -1,15 +1,21 @@
-<form class="add-tweet-form">
-  <mat-form-field class="add-tweet-form__field" appearance="fill">
-    <mat-label class="add-tweet-form__field-title">Leave a comment</mat-label>
+<form [formGroup]="tweetForm" class="tweet-form">
+  <mat-form-field class="tweet-form__field" appearance="fill">
+    <mat-label class="tweet-form__field-title">Your tweet</mat-label>
     <textarea
-      class="add-tweet-form__control"
+      formControlName="msg"
+      class="tweet-form__control"
       matInput
       placeholder="Ex. It makes me feel..."
       cdkTextareaAutosize
       cdkAutosizeMinRows="4"
       cdkAutosizeMaxRows="10"></textarea>
   </mat-form-field>
-  <button class="add-tweet-form__submit-btn" mat-flat-button color="primary">
+  <button
+    class="tweet-form__submit-btn"
+    mat-flat-button
+    color="primary"
+    (click)="onSubmit()"
+    [disabled]="disabled || tweetForm.invalid">
     Tweet
   </button>
 </form>

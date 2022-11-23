@@ -1,9 +1,10 @@
-:host {
+.tweet-feed:host {
   display: block;
+  flex: 1;
 }
 
-.feed {
-  height: 80vh;
+.tweet-feed-container {
+  height: calc(100vh - 264px);
   overflow-y: scroll;
   &__item {
     border: 1px solid rgba(0, 0, 0, 0.87);
