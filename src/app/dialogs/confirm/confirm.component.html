@@ -1,0 +1,7 @@
+<div mat-dialog-content>
+  <div>{{ data.msg }}</div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onConfirm()" cdkFocusInitial>Cancel</button>
+  <button mat-button color="warn" [mat-dialog-close]="true">Ok</button>
+</div>

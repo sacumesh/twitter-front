@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NgZone, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,25 +21,29 @@ import {
   MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
 } from '@angular/material/snack-bar';
-import { UserFeedComponent } from './components/user-feed/user-feed.component';
+import { TweetFeedComponent } from './components/user-feed/tweet-feed.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { HomeComponent } from './pages/home/home.component';
-import { MetamaskNotFoundComponent } from './pages/metamask-not-found/metamask-not-found.component';
-
+import { EthereumMissingComponent } from './pages/etherum-missing/ethereum-missing.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ConfirmComponent } from './dialogs/confirm/confirm.component';
+import { MatRippleModule } from '@angular/material/core';
 @NgModule({
   declarations: [
     AppComponent,
     TweetComponent,
     CreateTweetComponent,
     EditTweetDialogComponent,
-    UserFeedComponent,
+    TweetFeedComponent,
     HomeComponent,
-    MetamaskNotFoundComponent,
+    EthereumMissingComponent,
+    ConfirmComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MatCardModule,
     MatDividerModule,
@@ -53,13 +57,14 @@ import { MetamaskNotFoundComponent } from './pages/metamask-not-found/metamask-n
     MatListModule,
     MatProgressSpinnerModule,
     ScrollingModule,
+    MatRippleModule,
   ],
   providers: [
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: {
         duration: 2500,
-        verticalPosition: 'top',
+        verticalPosition: 'center',
         horizontalPosition: 'center',
       },
     },

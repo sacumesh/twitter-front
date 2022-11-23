@@ -5,3 +5,30 @@ $color-black: #000;
 $color-grey-dark: #777;
 // Font
 $default-font-size: 1.6rem;
+
+$test: 64px;
+
+.loading-fog {
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: '';
+    transition: background 0.2s, visibility, 0.2;
+    transition-duration: 0.3s;
+    transition-delay: 0.3;
+    visibility: hidden;
+    background: none;
+    display: block;
+  }
+
+  &_show::after {
+    transition-duration: 0s;
+    transition-delay: 0.5s;
+    visibility: visible;
+    background: white;
+    opacity: 0.75;
+  }
+}

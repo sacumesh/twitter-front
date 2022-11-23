@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { EthereumGuard } from './guards/ethereum.guard';
 import { HomeComponent } from './pages/home/home.component';
-import { MetamaskNotFoundComponent } from './pages/metamask-not-found/metamask-not-found.component';
+import { EthereumMissingComponent } from './pages/etherum-missing/ethereum-missing.component';
 
 const routes: Routes = [
   {
@@ -12,8 +13,12 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    canActivate: [EthereumGuard],
   },
-  { path: 'metamask-not-found', component: MetamaskNotFoundComponent },
+  {
+    path: 'ethereum-missing',
+    component: EthereumMissingComponent,
+  },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
 

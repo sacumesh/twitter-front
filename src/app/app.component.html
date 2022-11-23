@@ -1,10 +1,10 @@
-<mat-toolbar color="primary">
-  <span>Twitter Clone</span>
-
-  <!-- This fills the remaining space of the current row -->
-  <span class="example-fill-remaining-space"></span>
-
-  <span></span>
-</mat-toolbar>
+<div class="navbar">
+  <div class="navbar__title">De Twitter</div>
+  <div>
+    <ng-container *ngIf="showProgressBar$ | async">
+      <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
+    </ng-container>
+  </div>
+</div>
 
 <router-outlet></router-outlet>
