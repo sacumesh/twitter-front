@@ -28,6 +28,17 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
+            "allowedCommonJsDependencies": [
+              "web3",
+              "bn.js",
+              "hash.js",
+              "bench32.js",
+              "js-sha3",
+              "scrypt-js",
+              "scrypt-js",
+              "bech32",
+              "aes-js"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -35,8 +46,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
