@@ -1,8 +1,7 @@
 <div class="page">
   <div class="page__header">
     <button
-      class="ex"
-      [disabled]="isConnectedToMetaMask$ | async"
+      [disabled]="selectedAccount !== ''"
       (click)="connectToMetaMask()"
       mat-flat-button
       color="warn">
@@ -11,15 +10,15 @@
   </div>
   <div class="page__content">
     <div>
-      <div class="account">Account: {{ activeAccount$ | async }}</div>
+      <div class="account">Account: {{ selectedAccount }}</div>
       <app-create-tweet
-        [disabled]="(isConnectedToMetaMask$ | async) === false"
+        [disabled]="selectedAccount === ''"
         (create)="onCreateTweet($event)"></app-create-tweet>
     </div>
     <app-tweet-feed>
       <ng-container *ngFor="let tweet of tweets$ | async">
         <app-tweet
-          [readonly]="tweet.author !== (activeAccount$ | async)"
+          [readonly]="tweet.author !== selectedAccount"
           [tweet]="tweet"
           (delete)="onDeleteTweet(tweet)"
           (update)="onUpdateTweet(tweet)"
