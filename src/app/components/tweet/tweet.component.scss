@@ -1,14 +1,26 @@
-.tweet:host {
-  position: relative;
-  display: block;
+.tweet {
+  &:host {
+    position: relative;
+    display: block;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
 
-  &:nth-child(odd) {
-    background: rgba(63, 81, 181, 0.15);
+    &:nth-child(odd) {
+      background: rgba(170, 174, 191, 0.15);
+    }
+
+    &:first-child {
+      border-top: 1px solid black;
+    }
   }
-}
-.test {
-  position: relative;
-  cursor: pointer;
+  &__status {
+    color: green;
+  }
+
+  &__author {
+    color: blue;
+  }
 }
 
 .mat-card {
@@ -23,6 +35,10 @@
   &__content {
     margin-bottom: 0;
     white-space: pre-wrap;
+  }
+
+  &:hover {
+    background: rgba(63, 81, 181, 0.15);
   }
 }
 
