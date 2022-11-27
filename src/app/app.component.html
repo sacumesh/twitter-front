@@ -1,10 +1,8 @@
 <div class="navbar">
   <div class="navbar__title">De Twitter</div>
-  <div>
-    <ng-container *ngIf="showProgressBar$ | async">
-      <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
-    </ng-container>
-  </div>
+  <ng-container *ngIf="showProgressBar$ | async">
+    <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
+  </ng-container>
 </div>
 
 <router-outlet></router-outlet>
