@@ -1,12 +1,9 @@
-import { Component, HostListener, NgZone, OnInit } from '@angular/core';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import {
   BehaviorSubject,
   firstValueFrom,
-  Observable,
-  of,
   Subscription,
   switchMap,
   timer,
@@ -24,14 +21,13 @@ import { Tweet } from 'src/app/types/app.types';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   tweets$ = new BehaviorSubject<Tweet[]>([]);
-  isConnectedToMetaMask$ = of(false);
-  activeAccount$!: Observable<string>;
+  selectedAccount = '';
   isLoading = false;
   tweetsloadingState: { [id: number]: boolean } = {};
-  isFeedLoading = false;
-  pollingSubscription!: Subscription;
+  private _pollingSubscription!: Subscription;
+  private _selectedAccountSubscription!: Subscription;
 
   constructor(
     private _web3Service: Web3Service,
@@ -43,10 +39,9 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.tweets$ = this._tweetsStore.$tweets;
-    this.isFeedLoading = true;
     try {
       //polling for new tweets
-      this.pollingSubscription = timer(0, 5000)
+      this._pollingSubscription = timer(0, 5000)
         .pipe(switchMap(() => this._contractService.getTweets()))
         .subscribe(tweets => {
           this.tweets$.next(tweets);
@@ -54,15 +49,29 @@ export class HomeComponent implements OnInit {
     } catch (e) {
       this._web3Service.handleError(e);
     }
-    this.isFeedLoading = true;
-    this.activeAccount$ = this._web3Service.selectedAccount$;
-    this.isConnectedToMetaMask$ = this._web3Service.isConnected$;
+    //subscribe to account changes
+    if (this._web3Service?.selectedAccount$) {
+      this._selectedAccountSubscription =
+        this._web3Service.selectedAccount$.subscribe(account => {
+          this.selectedAccount = account;
+        });
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this._pollingSubscription) {
+      this._pollingSubscription.unsubscribe();
+    }
+
+    if (this._selectedAccountSubscription) {
+      this._selectedAccountSubscription.unsubscribe();
+    }
   }
 
   async connectToMetaMask(): Promise<void> {
     this._navbarService.showProgressBar$.next(true);
     await this._web3Service.connect();
-    this._navbarService.showProgressBar$.next(true);
+    this._navbarService.showProgressBar$.next(false);
   }
 
   async onCreateTweet(tweet: any): Promise<void> {
