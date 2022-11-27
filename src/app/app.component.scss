@@ -5,10 +5,10 @@
   top: 0;
   left: 0;
   background-color: #3f51b5;
-  display: flex;
-  justify-content: center;
 
   &__title {
+    display: flex;
+    justify-content: center;
     color: $color-white;
     font-weight: normal;
     font-size: 3.5rem;

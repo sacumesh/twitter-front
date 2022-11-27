@@ -22,10 +22,8 @@
           [readonly]="tweet.author !== (activeAccount$ | async)"
           [tweet]="tweet"
           (delete)="onDeleteTweet(tweet)"
-          (update)="onUpdateTweet($event, tweet)"
-          [selected]="tweet.id === selectedTweetId"
-          [isLoading]="tweetsloadingState[tweet.id] || false"
-          (click)="onClickTweet(tweet)"></app-tweet>
+          (update)="onUpdateTweet(tweet)"
+          [isLoading]="tweetsloadingState[tweet.id] || false"></app-tweet>
       </ng-container>
     </app-tweet-feed>
   </div>

@@ -37,7 +37,8 @@
               "scrypt-js",
               "scrypt-js",
               "bech32",
-              "aes-js"
+              "aes-js",
+              "moment"
             ],
             "scripts": []
           },

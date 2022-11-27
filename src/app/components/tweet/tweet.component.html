@@ -1,40 +1,24 @@
 <div
   class="container loading-fog"
   [class.loading-fog--show]="isLoading"
-  [class.test]="!readonly && !isLoading"
-  matRipple
-  [matRippleCentered]="false"
-  [matRippleDisabled]="rippleDisabled"
-  [matRippleUnbounded]="false">
+  [class.test]="!readonly && !isLoading">
   <mat-card class="mat-card">
-    <mat-card-subtitle>Author: {{ tweet.author }}</mat-card-subtitle>
+    <mat-card-subtitle>
+      <div class="tweet__author">Author: {{ tweet.author }}</div>
+      <div class="tweet__status">{{ tweet | tweetState }}</div>
+    </mat-card-subtitle>
     <mat-card-content class="mat-card__content">
-      <p class="test">{{ tweet.content }}</p>
+      <p class="tweet__content">{{ tweet.content }}</p>
     </mat-card-content>
-    <div
-      class="mat-card__dropdown"
-      [@inOutAnimation]
-      *ngIf="!readonly && selected">
-      <div></div>
-      <div class="mat-card__actions">
-        <button
-          mat-button
-          color="primary"
-          (mouseenter)="disableRipple()"
-          (mouseleave)="enableRipple()"
-          (click)="$event.stopPropagation(); onUpdate()">
-          Edit
-        </button>
-        <button
-          (mouseenter)="disableRipple()"
-          (mouseleave)="enableRipple()"
-          mat-button
-          color="warn"
-          (click)="$event.stopPropagation(); onDelete()">
-          Delete
-        </button>
+    <ng-container *ngIf="!readonly">
+      <div class="mat-card__dropdown">
+        <div></div>
+        <div class="mat-card__actions">
+          <button mat-button color="primary" (click)="onUpdate()">Edit</button>
+          <button mat-button color="warn" (click)="onDelete()">Delete</button>
+        </div>
       </div>
-    </div>
+    </ng-container>
   </mat-card>
 </div>
 <ng-container *ngIf="isLoading">

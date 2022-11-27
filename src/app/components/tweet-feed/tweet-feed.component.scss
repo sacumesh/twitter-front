@@ -4,8 +4,8 @@
 }
 
 .tweet-feed-container {
-  height: calc(100vh - 264px);
-  overflow-y: scroll;
+  max-height: calc(100vh - 264px);
+  overflow-y: auto;
   &__item {
     border: 1px solid rgba(0, 0, 0, 0.87);
     &:not(:first-child) {

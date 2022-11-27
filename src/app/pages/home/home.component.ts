@@ -1,7 +1,18 @@
 import { Component, HostListener, NgZone, OnInit } from '@angular/core';
-import { fakeAsync } from '@angular/core/testing';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, delay, merge, Observable, of } from 'rxjs';
+
+import { MatDialog } from '@angular/material/dialog';
+
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  Observable,
+  of,
+  Subscription,
+  switchMap,
+  timer,
+} from 'rxjs';
+import { ConfirmComponent } from 'src/app/dialogs/confirm/confirm.component';
+import { EditTweetDialogComponent } from 'src/app/dialogs/edit-tweet-dialog/edit-tweet-dialog.component';
 import { ContractService } from 'src/app/services/contract.service';
 import { NavbarService } from 'src/app/services/navbar.service';
 import { Web3Service } from 'src/app/services/web3.service';
@@ -17,24 +28,29 @@ export class HomeComponent implements OnInit {
   tweets$ = new BehaviorSubject<Tweet[]>([]);
   isConnectedToMetaMask$ = of(false);
   activeAccount$!: Observable<string>;
-  selectedTweetId = -1;
   isLoading = false;
   tweetsloadingState: { [id: number]: boolean } = {};
   isFeedLoading = false;
+  pollingSubscription!: Subscription;
 
   constructor(
     private _web3Service: Web3Service,
     private _contractService: ContractService,
     private _tweetsStore: TweetsStore,
-    private _navbarService: NavbarService
+    private _navbarService: NavbarService,
+    private _dialog: MatDialog
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.tweets$ = this._tweetsStore.$tweets;
     this.isFeedLoading = true;
     try {
-      const tweets = await this._contractService.getTweets();
-      this.tweets$.next(tweets);
+      //polling for new tweets
+      this.pollingSubscription = timer(0, 5000)
+        .pipe(switchMap(() => this._contractService.getTweets()))
+        .subscribe(tweets => {
+          this.tweets$.next(tweets);
+        });
     } catch (e) {
       this._web3Service.handleError(e);
     }
@@ -47,14 +63,6 @@ export class HomeComponent implements OnInit {
     this._navbarService.showProgressBar$.next(true);
     await this._web3Service.connect();
     this._navbarService.showProgressBar$.next(true);
-  }
-
-  onClickTweet(tweet: Tweet): void {
-    if (this.selectedTweetId == tweet.id) {
-      this.selectedTweetId = -1;
-    } else {
-      this.selectedTweetId = tweet.id;
-    }
   }
 
   async onCreateTweet(tweet: any): Promise<void> {
@@ -70,6 +78,14 @@ export class HomeComponent implements OnInit {
   }
 
   async onDeleteTweet(tweet: Tweet): Promise<void> {
+    //if user clicked cancel or closed the dialog
+    const dialogRef = this._dialog.open(ConfirmComponent, {
+      data: { msg: 'Confirm delete' },
+    });
+    const dialogResult = await firstValueFrom(dialogRef.afterClosed());
+    if (!dialogResult) {
+      return;
+    }
     this.changeTweetLoadingState(tweet.id, true);
     try {
       await this._contractService.deleteTweet(tweet.id);
@@ -81,13 +97,21 @@ export class HomeComponent implements OnInit {
     this.changeTweetLoadingState(tweet.id, false);
   }
 
-  async onUpdateTweet(content: string, tweet: Tweet): Promise<void> {
+  async onUpdateTweet(tweet: Tweet): Promise<void> {
+    const dialogRef = this._dialog.open(EditTweetDialogComponent, {
+      data: { tweet },
+    });
+
+    const dialogResult = await firstValueFrom(dialogRef.afterClosed());
+    //if user clicked cancel or closed the dialog
+    if (!dialogResult) {
+      return;
+    }
+
     this.changeTweetLoadingState(tweet.id, true);
-    let tweets;
-    const old = this.tweets$.getValue();
     try {
-      await this._contractService.updateTweet(tweet.id, content);
-      tweets = await this._contractService.getTweets();
+      await this._contractService.updateTweet(tweet.id, dialogResult);
+      const tweets = await this._contractService.getTweets();
       this._tweetsStore.$tweets.next(tweets);
     } catch (error) {
       this._web3Service.handleError(error);
@@ -97,8 +121,5 @@ export class HomeComponent implements OnInit {
 
   changeTweetLoadingState(id: number, state: boolean): void {
     this.tweetsloadingState[id] = state;
-    if (state && id === this.selectedTweetId) {
-      this.selectedTweetId = -1;
-    }
   }
 }

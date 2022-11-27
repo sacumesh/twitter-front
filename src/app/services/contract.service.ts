@@ -48,6 +48,7 @@ export class ContractService {
         author: tweet.author,
         content: tweet.content,
         timestamp: tweet.timestamp,
+        status: tweet.status,
         id: tweet.id,
       };
     });
