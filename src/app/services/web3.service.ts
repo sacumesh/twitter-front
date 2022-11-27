@@ -16,7 +16,6 @@ import { enterZone } from '../utils/rxjs-operators/enter-zone';
 
 @Injectable({ providedIn: 'root' })
 export class Web3Service {
-  isConnected$ = of(false);
   selectedAccount$!: Observable<string>;
   web3!: Web3;
   ethereum!: any;
@@ -42,12 +41,6 @@ export class Web3Service {
       );
 
       this.selectedAccount$ = selectedAccount$.pipe(enterZone(this._ngZone));
-
-      this.isConnected$ = selectedAccount$.pipe(
-        map(account => !!account),
-        distinctUntilChanged(),
-        enterZone(this._ngZone)
-      );
     } else {
       this.web3 = new Web3.providers.WebsocketProvider(
         environment.web3WebsocketProviderHost
