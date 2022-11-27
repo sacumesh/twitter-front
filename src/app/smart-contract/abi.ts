@@ -2,6 +2,11 @@ import { AbiItem } from 'web3-utils';
 
 export const abi: AbiItem[] = [
   {
+    inputs: [],
+    stateMutability: 'nonpayable',
+    type: 'constructor',
+  },
+  {
     inputs: [
       {
         internalType: 'string',
@@ -25,6 +30,52 @@ export const abi: AbiItem[] = [
     name: 'deleteTweet',
     outputs: [],
     stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: '_id',
+        type: 'uint256',
+      },
+    ],
+    name: 'getTweet',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'id',
+            type: 'uint256',
+          },
+          {
+            internalType: 'address',
+            name: 'author',
+            type: 'address',
+          },
+          {
+            internalType: 'string',
+            name: 'content',
+            type: 'string',
+          },
+          {
+            internalType: 'enum Twitter.TweetStatus',
+            name: 'status',
+            type: 'uint8',
+          },
+          {
+            internalType: 'uint256',
+            name: 'timestamp',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct Twitter.Tweet',
+        name: '',
+        type: 'tuple',
+      },
+    ],
+    stateMutability: 'view',
     type: 'function',
   },
   {
@@ -74,45 +125,6 @@ export const abi: AbiItem[] = [
       {
         internalType: 'uint256',
         name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    name: 'tweets',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: 'id',
-        type: 'uint256',
-      },
-      {
-        internalType: 'address',
-        name: 'author',
-        type: 'address',
-      },
-      {
-        internalType: 'string',
-        name: 'content',
-        type: 'string',
-      },
-      {
-        internalType: 'enum Twitter.TweetStatus',
-        name: 'status',
-        type: 'uint8',
-      },
-      {
-        internalType: 'uint256',
-        name: 'timestamp',
         type: 'uint256',
       },
     ],
