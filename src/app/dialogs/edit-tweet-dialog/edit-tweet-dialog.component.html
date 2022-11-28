@@ -1,14 +1,14 @@
-<form (ngSubmit)="onNoClick()" #heroForm="ngForm">
+<form (ngSubmit)="onNoClick()" [formGroup]="editForm">
   <mat-label>
     <span>Author: </span>
-    <span>{{ data.tweet.author }}</span>
+    <span>{{ author }}</span>
   </mat-label>
   <div mat-dialog-content>
     <mat-form-field class="form-field" appearance="fill">
       <mat-label>Your tweet</mat-label>
       <textarea
         matInput
-        [(ngModel)]="content"
+        formControlName="content"
         cdkTextareaAutosize
         cdkAutosizeMinRows="1"
         cdkAutosizeMaxRows="10"
@@ -21,10 +21,10 @@
   <div mat-dialog-actions>
     <button mat-button cdkFocusInitial type="submit">Cancel</button>
     <button
+      [disabled]="editForm.invalid"
       mat-button
       color="warn"
-      [mat-dialog-close]="content"
-      [disabled]="!heroForm.form.valid || !heroForm.form.dirty">
+      [mat-dialog-close]="content">
       Ok
     </button>
   </div>
