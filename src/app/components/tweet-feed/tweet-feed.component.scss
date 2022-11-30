@@ -1,6 +1,18 @@
-.tweet-feed:host {
-  display: block;
-  flex: 1;
+@import '/src/styles/abstracts/variables';
+
+.tweet-feed {
+  &:host {
+    display: block;
+    flex: 1;
+  }
+  ::ng-deep &__no-tweets {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    height: 200px;
+    color: $color-grey-dark;
+  }
 }
 
 .tweet-feed-container {

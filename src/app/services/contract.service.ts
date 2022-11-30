@@ -43,12 +43,12 @@ export class ContractService {
   }
 
   mapTweetsResponseToTweets(response: any): Tweet {
-    return response.map((tweet: any) => {
+    return response.map((tweet: any): Tweet => {
       return {
         author: tweet.author,
         content: tweet.content,
-        timestamp: tweet.timestamp,
-        status: tweet.status,
+        createdAt: Number(tweet.createdAt),
+        updatedAt: Number(tweet.updatedAt),
         id: tweet.id,
       };
     });

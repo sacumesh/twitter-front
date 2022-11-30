@@ -27,7 +27,11 @@ export class EditTweetDialogComponent implements OnInit {
     this.editForm = this._fb.group({
       content: [
         this._data.tweet.content,
-        [Validators.required, createEmptyTextValidator()],
+        [
+          Validators.required,
+          Validators.maxLength(280),
+          createEmptyTextValidator(),
+        ],
       ],
     });
   }

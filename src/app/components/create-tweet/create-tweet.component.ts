@@ -17,7 +17,14 @@ export class CreateTweetComponent implements OnInit {
 
   ngOnInit(): void {
     this.tweetForm = this._fb.group({
-      msg: ['', [Validators.required, createEmptyTextValidator()]],
+      msg: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(280),
+          createEmptyTextValidator(),
+        ],
+      ],
     });
   }
 

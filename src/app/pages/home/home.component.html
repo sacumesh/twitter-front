@@ -16,8 +16,12 @@
         (create)="onCreateTweet($event)"></app-create-tweet>
     </div>
     <app-tweet-feed>
-      <ng-container *ngFor="let tweet of tweets$ | async">
+      <ng-container *ngIf="tweets$ | async as tweets">
+        <div *ngIf="tweets.length === 0" class="tweet-feed__no-tweets">
+          Be the first to tweet!
+        </div>
         <app-tweet
+          *ngFor="let tweet of tweets"
           [readonly]="tweet.author !== selectedAccount"
           [tweet]="tweet"
           (delete)="onDeleteTweet(tweet)"
