@@ -11,6 +11,7 @@ export class Web3Service {
   selectedAccount$!: Observable<string>;
   web3!: Web3;
   ethereum!: any;
+  isMetamask = false;
 
   constructor(private _ngZone: NgZone, private _snackBar: MatSnackBar) {
     this.initService();
@@ -20,6 +21,7 @@ export class Web3Service {
     const ethereum = (window as any).ethereum;
     if (ethereum !== undefined) {
       this.ethereum = ethereum;
+      this.isMetamask = ethereum?.isMetaMask;
       this.web3 = new Web3(ethereum);
       const accounts$ = from(this.web3.eth.getAccounts());
 
@@ -31,7 +33,7 @@ export class Web3Service {
           accounts?.length > 0 ? utils.getAddress(accounts[0]) : ''
         )
       );
-
+      //reenter angualr zone for web3 events
       this.selectedAccount$ = selectedAccount$.pipe(enterZone(this._ngZone));
     } else {
       const websocketProvider = new Web3.providers.WebsocketProvider(

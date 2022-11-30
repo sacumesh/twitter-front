@@ -1,12 +1,17 @@
 <div class="page">
   <div class="page__header">
     <button
-      [disabled]="selectedAccount !== ''"
+      [disabled]="selectedAccount !== '' || !isMetamaskInstalled"
       (click)="connectToMetaMask()"
       mat-flat-button
       color="warn">
       Connect to Metamask
     </button>
+  </div>
+  <div class="page__error">
+    <ng-container *ngIf="!isMetamaskInstalled">
+      <div>Metamask not found!</div>
+    </ng-container>
   </div>
   <div class="page__content">
     <div>

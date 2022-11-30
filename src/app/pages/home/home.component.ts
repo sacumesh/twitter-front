@@ -26,6 +26,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   selectedAccount = '';
   isLoadingTweetsFirstTime = true;
   tweetsloadingState: { [id: number]: boolean } = {};
+  isMetamaskInstalled = false;
+
   private _pollingSubscription!: Subscription;
   private _selectedAccountSubscription!: Subscription;
   private _POLLS_INTERVAL = 10000 * 50;
@@ -66,6 +68,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.selectedAccount = account;
         });
     }
+
+    this.isMetamaskInstalled = this._web3Service.isMetamask;
   }
 
   ngOnDestroy(): void {
