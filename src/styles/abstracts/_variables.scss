@@ -1,12 +1,10 @@
 // Color
 $color-white: #fff;
 $color-black: #000;
-
+$color-violet-blue: #3f51b5;
 $color-grey-dark: #777;
 // Font
 $default-font-size: 1.6rem;
-
-$test: 64px;
 
 .loading-fog {
   &::after {
@@ -24,7 +22,7 @@ $test: 64px;
     display: block;
   }
 
-  &_show::after {
+  &--show::after {
     transition-duration: 0s;
     transition-delay: 0.5s;
     visibility: visible;

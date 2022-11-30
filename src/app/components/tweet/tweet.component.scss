@@ -1,3 +1,4 @@
+@import '/src/styles/abstracts/variables';
 .tweet {
   &:host {
     position: relative;
@@ -19,7 +20,12 @@
   }
 
   &__author {
-    color: blue;
+    color: $color-violet-blue;
+  }
+  &__content {
+    overflow-wrap: break-word;
+    color: $color-grey-dark;
+    max-width: 645px;
   }
 }
 

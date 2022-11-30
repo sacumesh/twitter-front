@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContractService } from 'src/app/services/contract.service';
+import { createEmptyTextValidator } from 'src/app/validators/empty-text.validator';
 
 @Component({
   selector: 'app-create-tweet',
@@ -16,7 +17,14 @@ export class CreateTweetComponent implements OnInit {
 
   ngOnInit(): void {
     this.tweetForm = this._fb.group({
-      msg: ['', [Validators.required]],
+      msg: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(280),
+          createEmptyTextValidator(),
+        ],
+      ],
     });
   }
 
