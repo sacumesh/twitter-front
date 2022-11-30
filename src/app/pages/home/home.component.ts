@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.tweets$ = this._tweetsStore.$tweets;
     try {
       //polling for new tweets
-      this._pollingSubscription = timer(0, 5000)
+      this._pollingSubscription = timer(0)
         .pipe(switchMap(() => this._contractService.getTweets()))
         .subscribe(tweets => {
           this.tweets$.next(tweets);

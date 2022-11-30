@@ -4,9 +4,8 @@
   position: relative;
   height: 100vh;
   padding-top: 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
 
   &__header {
     display: flex;
@@ -17,11 +16,8 @@
 
   &__content {
     display: flex;
-    justify-content: center;
     column-gap: 20px;
     margin-top: 50px;
-    max-width: 1116px;
-    width: 100%;
   }
 }
 
