@@ -11,28 +11,28 @@ Deployment link(Azure app service): [https://orange-desert-024425710.2.azurestat
 
 # Available scripts
 
-To start the development server run
+To start the development server, run
 
 ```bash
 npm start
 ```
 
-To build a production version run
+To build a production version, run
 
 ```bash
 npm run build
 ```
 
-To run angular cli commands run
+To run angular cli commands, run
 
 ```bash
 npm run ng <cli-command>
 ```
 
-To run ng lint run
+To run ng lint, run
 
 ```bash
-npm run lint <cli-command>
+npm run lint
 ```
 
 # Additional Info
