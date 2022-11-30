@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ContractService } from 'src/app/services/contract.service';
 import { createEmptyTextValidator } from 'src/app/validators/empty-text.validator';
 
 @Component({

@@ -1,15 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { utils } from 'ethers';
-import {
-  distinctUntilChanged,
-  from,
-  fromEvent,
-  map,
-  merge,
-  Observable,
-  of,
-} from 'rxjs';
+import { from, fromEvent, map, merge, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import Web3 from 'web3';
 import { enterZone } from '../utils/rxjs-operators/enter-zone';
