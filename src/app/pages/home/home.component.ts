@@ -26,8 +26,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   selectedAccount = '';
   isLoadingTweetsFirstTime = true;
   tweetsloadingState: { [id: number]: boolean } = {};
+  isMetamaskInstalled = false;
+
   private _pollingSubscription!: Subscription;
   private _selectedAccountSubscription!: Subscription;
+  private _POLLS_INTERVAL = 1000 * 50;
 
   constructor(
     private _web3Service: Web3Service,
@@ -41,7 +44,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.tweets$ = this._tweetsStore.$tweets;
     try {
       //polling for new tweets
-      this._pollingSubscription = timer(0)
+      this._pollingSubscription = timer(0, this._POLLS_INTERVAL)
         .pipe(switchMap(() => this._contractService.getTweets()))
         .subscribe(tweets => {
           if (this.isLoadingTweetsFirstTime) {
@@ -65,6 +68,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.selectedAccount = account;
         });
     }
+
+    this.isMetamaskInstalled = this._web3Service.isMetamask;
   }
 
   ngOnDestroy(): void {
