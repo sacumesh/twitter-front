@@ -1,27 +1,40 @@
 # TwitterFront
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.8.
+The aim of this repository is to intergrate Twitter Solidity Contract using Metamask
 
-## Development server
+Twitter Solidty Contract: [https://github.com/sacumesh/twitter-contract](https://github.com/sacumesh/twitter-contract)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+One smart contract deployed address on goerli: `0x7A18Ce4E6529e0f8E02149Bea1f1Bfd780a20928`
 
-## Code scaffolding
+Deployment link(Azure app service): [https://orange-desert-024425710.2.azurestaticapps.net/home?fbclid=IwAR1vN1g3At2HHOOxnZSr-bqLy6SY2lCm8skU3qdLj3pvH4qfsff1x8uaNuo](https://orange-desert-024425710.2.azurestaticapps.net/home?fbclid=IwAR1vN1g3At2HHOOxnZSr-bqLy6SY2lCm8skU3qdLj3pvH4qfsff1x8uaNuo)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# Available scripts
 
-## Build
+To start the development server run
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+npm start
+```
 
-## Running unit tests
+To build a production version run
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+npm run build
+```
 
-## Running end-to-end tests
+To run angular cli commands run
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+npm run ng <cli-command>
+```
 
-## Further help
+To run ng lint run
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```bash
+npm run lint <cli-command>
+```
+
+# Additional Info
+
+- No tests are implemnted
