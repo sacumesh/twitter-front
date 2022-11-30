@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private _pollingSubscription!: Subscription;
   private _selectedAccountSubscription!: Subscription;
-  private _POLLS_INTERVAL = 10000 * 50;
+  private _POLLS_INTERVAL = 1000 * 50;
 
   constructor(
     private _web3Service: Web3Service,
