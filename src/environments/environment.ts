@@ -5,17 +5,6 @@
 export const environment = {
   production: false,
   contractAddress: '0x8F40F03591Dfe64CbF2EC55586e43ac9e25bdaC7',
-  // // contractAddress: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-  // contractAddress: '0x831f6fa31500F6134e62327Cc2BBD7Fe44f4EB4c',
   web3WebsocketProviderHost:
-    'wss://ropsten.infura.io/ws/v3/c408acc6d32941a496920461a9c1335f',
+    'wss://goerli.infura.io/ws/v3/45133a9e812e42528eed70722474bf4c',
 };
-
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.

@@ -34,9 +34,10 @@ export class Web3Service {
 
       this.selectedAccount$ = selectedAccount$.pipe(enterZone(this._ngZone));
     } else {
-      this.web3 = new Web3.providers.WebsocketProvider(
+      const websocketProvider = new Web3.providers.WebsocketProvider(
         environment.web3WebsocketProviderHost
-      ) as unknown as Web3;
+      );
+      this.web3 = new Web3(websocketProvider);
     }
   }
 
@@ -117,7 +118,7 @@ export class Web3Service {
         errorMsg = 'Chain Disconnected';
         break;
       default:
-        errorMsg = 'Unknow Error';
+        errorMsg = e?.message || 'Unknow Error';
     }
     console.error(e);
     this._snackBar.open(errorMsg);

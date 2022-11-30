@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   tweetsloadingState: { [id: number]: boolean } = {};
   private _pollingSubscription!: Subscription;
   private _selectedAccountSubscription!: Subscription;
+  private _POLLS_INTERVAL = 10000 * 50;
 
   constructor(
     private _web3Service: Web3Service,
@@ -41,7 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.tweets$ = this._tweetsStore.$tweets;
     try {
       //polling for new tweets
-      this._pollingSubscription = timer(0)
+      this._pollingSubscription = timer(0, this._POLLS_INTERVAL)
         .pipe(switchMap(() => this._contractService.getTweets()))
         .subscribe(tweets => {
           if (this.isLoadingTweetsFirstTime) {
