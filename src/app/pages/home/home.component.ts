@@ -24,7 +24,7 @@ import { Tweet } from 'src/app/types/app.types';
 export class HomeComponent implements OnInit, OnDestroy {
   tweets$ = new BehaviorSubject<Tweet[]>([]);
   selectedAccount = '';
-  isLoading = false;
+  isLoadingTweetsFirstTime = true;
   tweetsloadingState: { [id: number]: boolean } = {};
   private _pollingSubscription!: Subscription;
   private _selectedAccountSubscription!: Subscription;
@@ -37,14 +37,23 @@ export class HomeComponent implements OnInit, OnDestroy {
     private _dialog: MatDialog
   ) {}
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.tweets$ = this._tweetsStore.$tweets;
     try {
       //polling for new tweets
       this._pollingSubscription = timer(0)
         .pipe(switchMap(() => this._contractService.getTweets()))
         .subscribe(tweets => {
+          if (this.isLoadingTweetsFirstTime) {
+            this._navbarService.showProgressBar$.next(true);
+          }
+
           this.tweets$.next(tweets);
+
+          if (this.isLoadingTweetsFirstTime) {
+            this.isLoadingTweetsFirstTime = false;
+            this._navbarService.showProgressBar$.next(false);
+          }
         });
     } catch (e) {
       this._web3Service.handleError(e);
