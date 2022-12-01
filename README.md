@@ -7,7 +7,7 @@ Twitter Solidty Contract: [https://github.com/sacumesh/twitter-contract](https:/
 
 One smart contract deployed address on goerli: `0x7A18Ce4E6529e0f8E02149Bea1f1Bfd780a20928`
 
-Deployment link(Azure app service): [https://orange-desert-024425710.2.azurestaticapps.net/home?fbclid=IwAR1vN1g3At2HHOOxnZSr-bqLy6SY2lCm8skU3qdLj3pvH4qfsff1x8uaNuo](https://orange-desert-024425710.2.azurestaticapps.net/home?fbclid=IwAR1vN1g3At2HHOOxnZSr-bqLy6SY2lCm8skU3qdLj3pvH4qfsff1x8uaNuo)
+Deployment link(Azure app service): [https://orange-desert-024425710.2.azurestaticapps.net](https://orange-desert-024425710.2.azurestaticapps.net)
 
 # Available scripts
 
